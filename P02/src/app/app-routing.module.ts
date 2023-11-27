@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { StevenComponent } from './components/steven/steven.component';
+import { OlympicComponent } from './components/olympic/olympic.component';
 import { CountryComponent } from './components/country/country.component';
 
 const routes: Routes = [
@@ -11,9 +11,9 @@ const routes: Routes = [
   component: HomeComponent,
 },
 {
-  path: 'steven',
-  component: StevenComponent,
-  title: 'steven'
+  path: 'olympic',
+  component: OlympicComponent,
+  title: 'olympic'
 },
 {
   path: 'country/:countryname',

@@ -91,17 +91,17 @@ export class CountryComponent {
     for(let c of this.CountryDatas){
       if (c.country == this.countryname){
         this.error = false;
-        for  (let  event in c.participations){
-          this.citylist.push(c.participations[event].city);
-          this.medalNB += c.participations[event].medalsCount;
-          this.athleteNB += c.participations[event].athleteCount;
-          this.countryMedal[i] = c.participations[event].medalsCount;
+        for  (let  event of c.participations){
+          this.citylist.push(event.city);
+          this.medalNB += event.medalsCount;
+          this.athleteNB +=event.athleteCount;
+          this.countryMedal[i] = event.medalsCount;
           i++;
         }
       }
     }
     if (this.error){
-      this.router.navigate(['/steven']);
+      this.router.navigate(['/olympic']);
     }
   }  
 
