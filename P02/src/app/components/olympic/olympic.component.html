@@ -1,5 +1,5 @@
 <div class="center">
-  <button class="myButton">Total of JOs <br> {{ (eventlist | async)?.length }} </button>
+  <button class="myButton">Total of JOs <br> {{ (eventlist$ | async)?.size }} </button>
   <button class="myButton">Total number of countries <br> {{countryNB}} </button>
 
 <canvas

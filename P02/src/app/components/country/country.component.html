@@ -2,14 +2,14 @@
   <h1>{{ countryname }} <span> <a class="back" [routerLink]="['/']">Back</a></span></h1>
 
 
-<button class="myButton">Total number of entry <br> {{ citylist.length }} </button>
-<button class="myButton">Total number medals <br> {{ medalNB }} </button>
-<button class="myButton">Total number athlete <br> {{athleteNB}} </button>
+<button class="myButton">Total number of entry <br> {{ (citylist$ | async)?.size }} </button>
+<button class="myButton">Total number medals <br> {{ (medalNB$ | async) }} </button>
+<button class="myButton">Total number athlete <br> {{(athleteNB$ | async) }} </button>
 
 <canvas
   baseChart
   class="chart"
-  [data]="lineChartData"
+  [data]="(lineChartData | async ) || undefined"
   [options]="lineChartOptions"
   [type]="lineChartType"
    height="500"
@@ -17,4 +17,3 @@
 ></canvas>
 
 </div>
-
