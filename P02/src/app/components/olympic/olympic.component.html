@@ -1,17 +1,17 @@
 <div class="center">
-  <button class="myButton">Total of JOs <br> {{ (eventlist$ | async)?.size }} </button>
-  <button class="myButton">Total number of countries <br> {{countryNB}} </button>
-
-<canvas
-  baseChart
-  class="chart"
-  [data]="(pieChartData | async ) || undefined"
-  [type]="pieChartType"
-  height="500"
-  width="500"
-  [options]="pieChartOptions"
-  [plugins]="pieChartPlugins"
-  (chartClick)="chartClicked($event)"
->
-</canvas>
+  <button class="myButton title">Medals per Country</button><br>
+  <button class="myButton myButton-left">Total of JOs <br> {{ (eventlist$ | async)?.size }} </button>
+  <button class="myButton myButton-right">Total number of countries <br> {{countryNB}} </button>
+  <div class="container">
+    <canvas
+      baseChart
+      class="chart"
+      [data]="(pieChartData | async ) || undefined"
+      [type]="pieChartType"
+      [options]="pieChartOptions"
+      [plugins]="pieChartPlugins"
+      (chartClick)="chartClicked($event)"
+    >
+    </canvas>
+  </div>
 </div>
