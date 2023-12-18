@@ -21,12 +21,13 @@ export class OlympicComponent implements OnDestroy {
   countryNB: number = 0;
   eventlist$: Observable<Set<string>> = this.olympic.getevents();
   subscriptions: Subscription[] = [];
+  view = [500, 500]
 
   public pieChartData: Observable<ChartData<'pie', number[], string | string[]>> = combineLatest(this.countryName$, this.countryMedal$).pipe(
     map(([countryName, countryMedal]) => {
         return {
           labels: countryName,
-          datasets: [{data: countryMedal}],
+          datasets: [{data: countryMedal, backgroundColor:["#8e6366","#724152","#8da2d7","#93829f","#c5dfef","#bbcbe5"]}],
         }
       }
     )
@@ -40,7 +41,13 @@ export class OlympicComponent implements OnDestroy {
   }
 
   public pieChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
+    responsive: false,
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        left: 70
+      }
+    },
     plugins: {
       legend: {
         display: false,
@@ -52,8 +59,8 @@ export class OlympicComponent implements OnDestroy {
           }
         },
         anchor: 'end',
-        clamp: true,
-        align: 'end'
+        align: 'end',
+        clamp: true
       },
     },
   };
