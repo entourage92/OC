@@ -8,6 +8,7 @@ import com.chatop.dtos.UserDto;
 import com.chatop.entities.User;
 import com.chatop.repository.UserRepository;
 import com.chatop.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.chatop.services.JWTService;
@@ -28,6 +29,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    @Operation(summary = "User login")
     @PostMapping(value = "api/auth/login", consumes = {"*/*"})
     public ResponseEntity<Map<String, String>> getToken(@RequestBody LoginUserDto loginUserDto) {
         if (userService.authenticate(loginUserDto)) {
@@ -37,6 +39,7 @@ public class UserController {
         return ResponseEntity.ok(Collections.singletonMap("error", "Check credentials"));
     }
 
+    @Operation(summary = "Retrieve Current User")
     @GetMapping("api/auth/me")
     public ResponseEntity<User> authenticatedUser(@RequestHeader("Authorization") String bearerToken) {
         String username = jwtService.returnuser(bearerToken);
@@ -44,6 +47,7 @@ public class UserController {
         return ResponseEntity.ok(newuser);
     }
 
+    @Operation(summary = "User Register")
     @PostMapping(value = "api/auth/register", consumes = {"*/*"})
     public ResponseEntity<Map<String, String>> register(@RequestBody RegisterUserDto registerUserDto) throws GeneralException, ParseException {
         User newuser = userService.addUser(registerUserDto);
@@ -54,6 +58,7 @@ public class UserController {
         return ResponseEntity.ok(Collections.singletonMap("token", token));
     }
 
+    @Operation(summary = "Retrieve User By ID")
     @GetMapping("api/user/{userId}")
     @ResponseBody
     public UserDto getUser(@RequestHeader("Authorization") String bearerToken, @PathVariable(value="userId") Integer userId) {

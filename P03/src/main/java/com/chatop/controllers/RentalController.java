@@ -7,6 +7,7 @@ import com.chatop.dtos.UpdateRentalDto;
 import com.chatop.entities.Rental;
 import com.chatop.services.JWTService;
 import com.chatop.services.RentalService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,7 @@ public class RentalController {
         this.request = request;
     }
 
+    @Operation(summary = "Add new rental")
     @PostMapping(value = "api/rentals", consumes = { "multipart/form-data" })
     public ResponseEntity<Rental> register(@ModelAttribute CreateRentalDto createRentalDto, @RequestHeader("Authorization") String bearerToken) throws IOException {
         String username = jwtService.returnuser(bearerToken);
@@ -44,6 +46,7 @@ public class RentalController {
         return ResponseEntity.ok(newrental);
     }
 
+    @Operation(summary = "Update existing rental")
     @PutMapping(value = "api/rentals/{rentalId}", consumes = {"*/*"})
     public ResponseEntity<MessageResponseDTO> updateRental(@ModelAttribute UpdateRentalDto updateRentalDto, @RequestHeader("Authorization") String bearerToken, @PathVariable(value="rentalId") Integer rentalId) throws IOException {
         String username = jwtService.returnuser(bearerToken);
@@ -51,6 +54,7 @@ public class RentalController {
         return ResponseEntity.ok(message);
     }
 
+    @Operation(summary = "Retrieve Rental")
     @GetMapping("api/rentals/{rentalId}")
     @ResponseBody
     public RentalDto getrental(@RequestHeader("Authorization") String bearerToken, @PathVariable(value="rentalId") Integer rentalId) {
@@ -58,6 +62,7 @@ public class RentalController {
             return ResponseEntity.ok(newrental).getBody();
     }
 
+    @Operation(summary = "Retrieve Image")
     @GetMapping(value = "image/{imgName}", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
     public byte[] getimage(@PathVariable(value="imgName") String imgName) throws IOException {
@@ -66,6 +71,7 @@ public class RentalController {
         return IOUtils.toByteArray(in);
     }
 
+    @Operation(summary = "Retrieve All Rental")
     @GetMapping("api/rentals")
     @ResponseBody
     public ResponseEntity getallrental(@RequestHeader("Authorization") String bearerToken) {
