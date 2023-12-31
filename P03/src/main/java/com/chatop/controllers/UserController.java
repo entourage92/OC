@@ -41,10 +41,11 @@ public class UserController {
 
     @Operation(summary = "Retrieve Current User")
     @GetMapping("api/auth/me")
-    public ResponseEntity<User> authenticatedUser(@RequestHeader("Authorization") String bearerToken) {
+    public UserDto authenticatedUser(@RequestHeader("Authorization") String bearerToken) {
         String username = jwtService.returnuser(bearerToken);
         User newuser = userRepository.findByUsername(username);
-        return ResponseEntity.ok(newuser);
+        UserDto user = userService.getUser(newuser.getId());
+        return ResponseEntity.ok(user).getBody();
     }
 
     @Operation(summary = "User Register")
