@@ -1,0 +1,21 @@
+<div>
+  <h2>Admin Chat</h2>
+  <div>
+    <h3>Select User</h3>
+    <!-- Pass $event directly to onSelectUser -->
+    <select [(ngModel)]="selectedUser" (change)="onSelectUser($event)">
+      <option *ngFor="let user of users" [value]="user.username">{{ user.username }}</option>
+    </select>
+  </div>
+  <div class="chat-container">
+    <div class="message" *ngFor="let message of chatMessages">
+      <!-- Display messages here -->
+      <p>{{ message.sender.username }}: {{ message.content }}</p>
+    </div>
+    <div #bottom></div> <!-- Element for scrolling to bottom -->
+  </div>
+  <form (submit)="sendMessage()">
+    <input type="text" [(ngModel)]="newMessage" name="newMessage" placeholder="Type your response">
+    <button type="submit">Send</button>
+  </form>
+</div>

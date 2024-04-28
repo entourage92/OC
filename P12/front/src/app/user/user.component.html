@@ -1,0 +1,21 @@
+<div>
+  <h2>Customer Chat</h2>
+  <input type="text" [(ngModel)]="userName" placeholder="Enter your name">
+  <button (click)="startChat()">Start Chat</button>
+  <div *ngIf="chatStarted">
+    <h3>Chat with Support</h3>
+    <div class="chat-container">
+      <div class="message" *ngFor="let message of chatMessages">
+        <div *ngIf="message.sender.username === userName" class="user-message">
+          <span class="user-name">{{ message.sender.username }}:</span> {{ message.content }}
+        </div>
+        <div *ngIf="message.sender.username === 'admin'" class="admin-message">
+          <span class="admin-name">Admin:</span> {{ message.content }}
+        </div>
+      </div>
+      <div #bottom></div> <!-- Element for scrolling to bottom -->
+    </div>
+    <input type="text" [(ngModel)]="newMessage" placeholder="Type your message">
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div>
