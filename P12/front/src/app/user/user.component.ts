@@ -32,7 +32,6 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Setup interval to call loadMessages every 5 seconds
     this.messageSubscription = interval(5000).pipe(
       switchMap(() => {
         if (this.userName) {
@@ -56,7 +55,6 @@ export class UserComponent implements OnInit, OnDestroy {
     );
   }
   ngOnDestroy(): void {
-    // Unsubscribe from messageSubscription to prevent memory leaks
     this.messageSubscription.unsubscribe();
   }
 
@@ -68,7 +66,6 @@ export class UserComponent implements OnInit, OnDestroy {
         sender: this.userName
       };
 
-      // Send message to the server
       this.http.post('http://localhost:8080/api/chat/message', message).subscribe(
         () => {
           console.log('One Message sent successfully');

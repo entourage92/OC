@@ -24,9 +24,7 @@ export class MessageService {
       this.http.get<any[]>(`${this.baseUrl}/api/chat/responses/${username}`)
     ]).pipe(
       map(([userMessages, adminResponses]) => {
-        // Merge user messages and admin responses
         const allMessages = [...userMessages, ...adminResponses];
-        // Sort messages by timestamp
         return allMessages.sort((a, b) => {
           return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
         });

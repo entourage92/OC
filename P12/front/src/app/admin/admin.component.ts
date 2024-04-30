@@ -18,7 +18,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   chatMessages: any[] = [];
   newMessage: string = '';
   adminMessages: any[] = [];
-  selectedUser: string = ''; // Track the selected user
+  selectedUser: string = '';
   users: any[] = [];
   private messageSubscription: Subscription = new Subscription();
 
@@ -26,7 +26,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Load users
     this.loadUsers();
   }
 
@@ -45,11 +44,9 @@ export class AdminComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Function to fetch and display previous messages with selected user
   onSelectUser(event: any): void {
     const username = event.target.value;
     this.selectedUser = username;
-    // Load previous messages with selected user immediately
     this.loadMessages();
 
     // Subscribe to getUserAndAdminMessages every 5 seconds
@@ -57,8 +54,8 @@ export class AdminComponent implements OnInit, OnDestroy {
       switchMap(() => this.messageService.getUserAndAdminMessages(this.selectedUser))
     ).subscribe(
       (messages: any[]) => {
-        this.chatMessages = messages; // Assign fetched messages to chatMessages array
-      },
+        this.chatMessages = messages;
+	 },
       (error) => {
         console.error('Error fetching messages:', error);
       }
@@ -74,10 +71,8 @@ export class AdminComponent implements OnInit, OnDestroy {
         sender: 'admin'
       };
 
-      // Send message to the server
       this.http.post('http://localhost:8080/api/chat/message', message).subscribe(
         () => {
-          console.log('Message sent successfully');
         },
         (error) => {
           console.error('Error sending message:', error);
