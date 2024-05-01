@@ -31,7 +31,7 @@ jobs:
       run: pwd
     - name: Build with Maven
       run: | 
-        cd P13/back
+        cd /home/runner/work/OC/OC/P13/back
         mvn -B package --file pom.xml
       working-directory: P13/back
 
