@@ -42,3 +42,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         directory: /home/runner/work/OC/OC/P13/back
+        permissions: write
