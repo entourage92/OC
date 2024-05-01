@@ -26,6 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        directory: /home/runner/work/OC/OC/P13/front
     - run: |
             cd /home/runner/work/OC/OC/P13/front
             npm ci
