@@ -33,7 +33,7 @@ jobs:
       run: | 
         cd /home/runner/work/OC/OC/P13/back
         mvn -B package --file pom.xml
-      working-directory: /home/runner/work/OC/OC/P13/back
+      working-directory: P13/back
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
@@ -41,17 +41,14 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        directory: /home/runner/work/OC/OC/P13/back
+        directory: P13/back
         permissions: write
-    - name: Test Report
-      uses: phoenix-actions/test-reporting@v8
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      id: test-report               # Set ID reference for step
-      if: success() || failure()    # run this step even if previous step failed
+    - name: Run tests and generate Jacoco report
+      run: mvn test jacoco:report
+      working-directory: P13/back
+
+    - name: Upload Jacoco report
+      uses: actions/upload-artifact@v4
       with:
-        name: JEST Tests            # Name of the check run which will be created
-        path: reports/jest-*.xml    # Path to test results
-        reporter: jest-junit        # Format of test results
-        working-directory: /home/runner/work/OC/OC/P13/back
-        token: ${{ secrets.GITHUB_TOKEN }}
+        name: jacoco-report
+        path: P13/back/target/site/jacoco
