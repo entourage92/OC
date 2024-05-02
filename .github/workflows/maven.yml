@@ -54,7 +54,7 @@ jobs:
       if: success() || failure()    # run this step even if previous step failed
       with:
         name: JEST Tests            # Name of the check run which will be created
-        path: target/site/jacoco.xml    # Path to test results relative to the working directory
+        path: P13/back/target/site/jacoco.xml    # Path to test results relative to the working directory
         reporter: jest-junit        # Format of test results
-        working-directory: P13/back/target/site/jacoco
+        working-directory: P13/back
         token: ${{ secrets.GITHUB_TOKEN }}
