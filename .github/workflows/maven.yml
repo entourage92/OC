@@ -46,15 +46,9 @@ jobs:
     - name: Run tests and generate Jacoco report
       run: mvn test jacoco:report
       working-directory: P13/back
-    - name: Test Report
-      uses: phoenix-actions/test-reporting@v8
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      id: test-report               # Set ID reference for step
-      if: success() || failure()    # run this step even if previous step failed
+
+    - name: Upload Jacoco report
+      uses: actions/upload-artifact@v3
       with:
-        name: JEST Tests            # Name of the check run which will be created
-        path: P13/back/target/site/jacoco.xml    # Path to test results relative to the working directory
-        reporter: jest-junit        # Format of test results
-        working-directory: P13/back
-        token: ${{ secrets.GITHUB_TOKEN }}
+        name: jacoco-report
+        path: P13/back/target/site/jacoco
