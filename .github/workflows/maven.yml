@@ -53,5 +53,5 @@ jobs:
         name: JEST Tests            # Name of the check run which will be created
         path: target/site/jacoco.xml    # Path to test results relative to the working directory
         reporter: jest-junit        # Format of test results
-        working-directory: /home/runner/work/OC/OC/P13/back
+        working-directory: /home/runner/work/OC/OC/P13/back/target/site/jacoco
         token: ${{ secrets.GITHUB_TOKEN }}
