@@ -20,24 +20,26 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: /home/runner/work/OC/OC/P13/front/package-lock.json
-    - name: Install dependencies
-      working-directory: P13/front
-      run: npm ci
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Run tests and generate reports
-      run: npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
-      working-directory: P13/front
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: P13/front/package-lock.json
 
-    - name: Upload Karma report artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: Karma-report
-        path: P13/front/coverage
+      - name: Install dependencies
+        run: npm ci
+        working-directory: P13/front
 
+      - name: Run tests and generate reports
+        run: npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
+        working-directory: P13/front
+
+      - name: Upload Karma report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Karma-report
+          path: P13/front/coverage
