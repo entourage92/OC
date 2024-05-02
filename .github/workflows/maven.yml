@@ -53,5 +53,6 @@ jobs:
         name: JEST Tests            # Name of the check run which will be created
         path: reports/jest-*.xml    # Path to test results
         reporter: jest-junit        # Format of test results
-        directory: /home/runner/work/OC/OC/P13/back
+        working-directory: /home/runner/work/OC/OC/P13/back
         permissions: write
+        token: ${{ secrets.GITHUB_TOKEN }}
