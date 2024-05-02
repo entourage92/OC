@@ -54,5 +54,4 @@ jobs:
         path: reports/jest-*.xml    # Path to test results
         reporter: jest-junit        # Format of test results
         working-directory: /home/runner/work/OC/OC/P13/back
-        permissions: write
         token: ${{ secrets.GITHUB_TOKEN }}
