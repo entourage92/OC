@@ -45,9 +45,7 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
 
       - name: Install Maven dependencies and build
-        run: |
-          cd P13/back
-          mvn -B package --file pom.xml
+        run: mvn -B package --file pom.xml
         working-directory: P13/back
 
       - name: Run Maven tests and generate Jacoco report
