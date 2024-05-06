@@ -1,38 +1,91 @@
-name: Build
+name: Build and Analyze
 
 on:
   push:
-    branches:
-      - main
-
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  build:
-    name: Build and analyze
+  build-and-analyze:
+    name: Build, Test, and Analyze
     runs-on: ubuntu-latest
     
+    strategy:
+      matrix:
+        node-version: [14.x]
+        # Define matrix for different Node.js versions if needed
+
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 17
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 16
         uses: actions/setup-java@v1
         with:
-          java-version: 17
-      - name: Cache SonarQube packages
-        uses: actions/cache@v1
+          java-version: 16
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+          node-version: ${{ matrix.node-version }}
+
       - name: Cache Maven packages
         uses: actions/cache@v1
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Install Maven dependencies and build
+        run: mvn -B package --file pom.xml
+        working-directory: P13/back
+
+      - name: Run Maven tests and generate Jacoco report
+        run: mvn test jacoco:report
+        working-directory: P13/back
+
+      - name: Install Node.js dependencies
+        run: npm ci
+        working-directory: P13/front
+
+      - name: Run Angular tests and generate coverage report
+        run: npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
+        working-directory: P13/front
+
+      - name: Upload Jacoco report
+        uses: actions/upload-artifact@v2
+        with:
+          name: jacoco-report
+          path: P13/back/target/site/jacoco
+
+      - name: Upload Karma report
+        uses: actions/upload-artifact@v2
+        with:
+          name: Karma-report
+          path: P13/front/coverage
+
+      - name: Build and analyze with SonarQube
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        working-directory: P13/back
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=entourage92_OC_18b299db-0fbb-4696-8c70-4f3f55843a5d -Dsonar.projectName='OC'
+
+      - name: Final checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: SonarQube scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
