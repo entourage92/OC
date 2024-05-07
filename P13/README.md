@@ -1,3 +1,8 @@
+BACK : [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=entourage92_OC_back&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=entourage92_OC_back)
+
+FRONT: [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=entourage92_OC_front&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=entourage92_OC_front)
+
+
 # BobApp
 
 Clone project:
