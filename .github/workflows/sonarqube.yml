@@ -86,3 +86,6 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
           force: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          RUNNER_ALLOW_RUNASROOT: true
