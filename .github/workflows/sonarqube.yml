@@ -37,6 +37,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_BASE_DIR: 'P13/front'  # Specify the base directory of your project
+
           
       - name: Set up Node.js
         uses: actions/setup-node@v2
