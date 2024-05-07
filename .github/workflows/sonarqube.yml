@@ -81,6 +81,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_PROJECT_BASE_DIR: 'P13/front'  # Specify the base directory of your Angular project
 
+      - name: Clean up .scannerwork folder
+        run: docker run -v "$(pwd):/usr/src" sonarsource/sonar-scanner-cli rm -rf .scannerwork
+
       - name: Final checkout
         uses: actions/checkout@v4
         with:
